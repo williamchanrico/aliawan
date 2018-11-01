@@ -132,12 +132,14 @@ func imagesCommand(cfg *config.Config) {
 	}
 	fmt.Printf("All feature using image %s (%s) has been replaced to use image %s (%s)\n", *flagOldName, oldImageID, *flagNewName, newImageID)
 
-	fmt.Println("Deleting junk image...")
 	junkImageNameSuffix := "-should-be-deleted"
 	junkImageID := ecsClient.GetImageIdByName(*flagOldName + junkImageNameSuffix)
-	err = ecsClient.DeleteImageByID(junkImageID)
-	if err != nil {
-		fmt.Printf("Looks like there's no junk images: %v\n", err)
+	if junkImageID != "" {
+		fmt.Println("Deleting junk image...")
+		err = ecsClient.DeleteImageByID(junkImageID)
+		if err != nil {
+			fmt.Printf("Error deleting junk image: %v\n", err)
+		}
 	}
 
 	if oldImageID != "" {
