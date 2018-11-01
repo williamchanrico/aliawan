@@ -135,9 +135,14 @@ func imagesCommand(cfg *config.Config) {
 	fmt.Println("Deleting junk image...")
 	junkImageNameSuffix := "-should-be-deleted"
 	junkImageID := ecsClient.GetImageIdByName(*flagOldName + junkImageNameSuffix)
-	err = ecsClient.DeleteImageByID(junkImageID)
-	if err != nil {
-		fmt.Printf("Looks like there's no junk images: %v\n", err)
+	if junkImageID != "" {
+		fmt.Println("Deleting junk image...")
+		junkImageNameSuffix := "-should-be-deleted"
+		junkImageID := ecsClient.GetImageIdByName(*flagOldName + junkImageNameSuffix)
+		err = ecsClient.DeleteImageByID(junkImageID)
+		if err != nil {
+			fmt.Printf("Looks like there's no junk images: %v\n", err)
+		}
 	}
 
 	if oldImageID != "" {
