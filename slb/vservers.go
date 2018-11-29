@@ -17,7 +17,6 @@ type BackendServer struct {
 }
 
 const (
-	Port   = 80
 	Weight = 100
 )
 
@@ -59,7 +58,7 @@ func getVServerGroupsIdByVServerName(c *Client, vServerName string) []string {
 	return Vservers
 }
 
-func (c *Client) AddInstanceToVServerGroup(vServerName string, instanceID string) error {
+func (c *Client) AddInstanceToVServerGroup(vServerName string, port int, instanceID string) error {
 	var err error
 
 	request := slb.CreateAddVServerGroupBackendServersRequest()
@@ -72,7 +71,7 @@ func (c *Client) AddInstanceToVServerGroup(vServerName string, instanceID string
 		var backendServers []BackendServer
 		request.VServerGroupId = vg
 		backendServer.ServerId = instanceID
-		backendServer.Port = Port
+		backendServer.Port = port
 		backendServer.Weight = Weight
 		backendServers = append(backendServers, backendServer)
 		sJSON, _ := json.Marshal(backendServers)
