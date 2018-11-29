@@ -14,6 +14,7 @@ type Config struct {
 	Region    string `env:"ALICLOUD_REGION" envDefault:"ap-southeast-1"`
 	AccesKey  string `env:"ALICLOUD_ACCESS_KEY"`
 	SecretKey string `env:"ALICLOUD_SECRET_KEY"`
+	SLBPort   int    `env:"SLB_PORT" envDefault:"80"`
 }
 
 type StsCred struct {
