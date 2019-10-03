@@ -22,7 +22,7 @@ func main() {
 	fmt.Println("======    ALIBABA CLOUD CLI WRAPPER      ========")
 	fmt.Println("======  another un-official alicloud-cli ========")
 	fmt.Println("======      to simplify your task        ========")
-	fmt.Println("====== v1.3                              ========")
+	fmt.Println("====== v1.3.1                            ========")
 	fmt.Println("=================================================")
 	fmt.Println()
 
@@ -105,6 +105,7 @@ func imagesCommand(cfg *config.Config) {
 
 	flagOldName := imagesCmd.String("oldname", "", "Old Image Name")
 	flagNewName := imagesCmd.String("newname", "", "New Image Name")
+	flagNewImageID := imagesCmd.String("newid", "", "New Image ID (optional)")
 	flagDeleteOld := imagesCmd.Bool("deleteold", false, "Delete Old Image")
 	imagesCmd.Parse(os.Args[2:])
 
@@ -122,6 +123,9 @@ func imagesCommand(cfg *config.Config) {
 	oldImageID := ecsClient.GetImageIdByName(*flagOldName)
 	fmt.Printf("Will replace image %s (%s)\n", *flagOldName, oldImageID)
 	newImageID := ecsClient.GetImageIdByName(*flagNewName)
+	if *flagNewImageID != "" {
+		newImageID = *flagNewImageID
+	}
 	fmt.Printf("With image %s (%s)\n", *flagNewName, newImageID)
 
 	essClient := ess.New(cfg)
